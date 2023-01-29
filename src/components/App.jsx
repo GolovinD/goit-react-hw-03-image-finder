@@ -6,6 +6,8 @@ import Modal from './Modal/Modal'
 import ImageGallery from './ImageGallery/ImageGallery'
 import Button from './Button/Button'
 
+import css from './App.module.css'
+
 class App extends React.Component {
 
   state = {
@@ -95,11 +97,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { status, error, searchData, showModal } = this.state;
+    const { status, error, searchData, largeImageURL, showModal } = this.state;
     
 
     return (
-      <div>
+      <div className={css.app}>
 
         <Searchbar
           onSubmit={this.handleFormSubmit}
@@ -123,6 +125,7 @@ class App extends React.Component {
        
         {showModal &&
           <Modal
+            largeImageURL={largeImageURL}
             onClose={this.toggleModal}
           />}        
             

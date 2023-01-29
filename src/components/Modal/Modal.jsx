@@ -28,7 +28,8 @@ class Modal extends Component {
     }
 
     render() {
-        const { largeImage, tags } = this.props;
+        const { largeImageURL, tags } = this.props;
+        console.log(largeImageURL);
 
         return createPortal (
             <div
@@ -36,7 +37,7 @@ class Modal extends Component {
             onClick={this.handleBackdropClick}
             >
                 <div className={css.Modal}>
-                    <img src={largeImage} alt={tags} />
+                    <img src={largeImageURL} alt={tags} />
                 </div>
             </div>,
             modalRoot,
