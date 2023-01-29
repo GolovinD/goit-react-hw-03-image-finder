@@ -22,12 +22,14 @@ class Searchbar extends React.Component {
         const searchQueryNorm = this.state.searchQuery.toLowerCase();
         console.log(searchQueryNorm);
         if (searchQueryNorm.trim() === '') {
-            alert('Зробіть запит');
+            alert('Введіть запит');
             return;  
         }
         this.props.onSubmit(searchQueryNorm)
         this.setState({ searchQuery: '' });
     }
+
+    
 
    
     render() {

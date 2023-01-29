@@ -3,75 +3,120 @@ import React from 'react'
 import Searchbar from './Searchbar/Searchbar'
 import Loader from './Loader/Loader'
 import Modal from './Modal/Modal'
+import ImageGallery from './ImageGallery/ImageGallery'
+import Button from './Button/Button'
 
 class App extends React.Component {
 
   state = {
-    imgs: '',
-    searchQuery: '',
+    searchQuery: '',     
+    searchData: [],
+    page: 1,
+    largeImage: '',
     showModal: false,
-    loading: false,
-  }
-
-
-  // state = {
-  //   searchData: '',
-  //   images: [],
-  //   page: 0,
-  //   largeImage: '',
-  //   showModal: false,
-  //   isLoading: false,
-  //   error: null,
-  //   totalImages: 0,
-  //   isMoreBtnHide: false,
-  // };
+    error: null,
+    totalImages: 0,
+    isMoreBtnHide: false,
+    status: 'idle',
+};
 
   toggleModal = () => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }))
   }
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-
-    fetch('https://pixabay.com/api/?q=cat&page=1&key=31277829-041385667a49103701e539b4a&image_type=photo&orientation=horizontal&per_page=12')
-      .then(res => res.json())
-      .then(console.log)
-      .then(imgs => this.setState({ imgs }))
-      .finally(() => this.setState({ loading: false }))
-  }
   
   handleFormSubmit = searchQuery => {
-    console.log(searchQuery);
+    // console.log(searchQuery);
 
     this.setState({
       searchQuery,
-      searchResult: [],
-      totalHits: null,
+      searchData: [],
       page: 1,
-      totalPage: null,
+
     });
-    console.log(this.state);
+    // console.log(this.state);
+  }
+
+  loadMore = () => {
+    console.log('click!')
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+      
+    }))
+    console.log(this.state.page)
+  };
+  
+  componentDidUpdate(prevProps, prevState) {
+    const { searchQuery, page, searchData } = this.state;
+    const prevSearch = prevState.searchQuery;
+    const prevPage = prevState.page;
+    const nextSearch = searchQuery;
+    if (prevSearch !== nextSearch
+           || page !== prevPage) {
+      console.log('зміна пропів', nextSearch);
+      this.setState({
+        searchData: [],
+        status: 'pending',
+      });
+        fetch(`https://pixabay.com/api/?q=${nextSearch}&page=${page}&key=31277829-041385667a49103701e539b4a&image_type=photo&orientation=horizontal&per_page=12`)
+      .then(response => {
+          
+          // const totalPage = Math.ceil(totalHits / PER_PAGE);
+          
+          
+        if (response.ok) {
+          return response.json();
+        }
+          return Promise.reject(
+            new Error(`Нажаль не знайдено зображень по запиту - ${nextSearch}`)
+          )
+      })
+          
+      .then(data => { 
+        const { hits, totalHits } = data
+        console.log(data);
+        this.setState({
+          searchData: [...searchData, ...hits],
+            status: 'resolved'
+        })
+      })
+          
+      .catch(error => this.setState({ error, status: 'rejected' }));       
+    }
   }
 
   render() {
-    const { showModal } = this.state;
-
+    const { status, error, searchData, showModal } = this.state;
+    
 
     return (
       <div>
 
         <Searchbar
-        onSubmit={this.handleFormSubmit}
-        ></Searchbar>
+          onSubmit={this.handleFormSubmit}
+        />
+        {status === 'pending' &&
+          <Loader/>}
+        
+        {status === 'rejected' &&
+          <h1>{error.message}</h1>}
+        
+        {status === 'resolved' &&
+          <ImageGallery
+            searchData={this.state.searchData}
+          />}
+        {searchData.length > 0 &&
+          <Button
+            onClick={this.loadMore}
+          />}
 
-
+       
         {showModal &&
           <Modal
-          onClose={this.toggleModal}
-          />}
-      
+            onClose={this.toggleModal}
+          />}        
+            
       </div>
     );
   };
