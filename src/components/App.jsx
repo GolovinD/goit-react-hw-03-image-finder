@@ -12,7 +12,7 @@ class App extends React.Component {
     searchQuery: '',     
     searchData: [],
     page: 1,
-    largeImage: '',
+    largeImageURL: '',
     id: '',
     tags: '',
     showModal: false,
@@ -48,8 +48,11 @@ class App extends React.Component {
     console.log(this.state.page)
   };
 
-  onImgClick = (largeImage, tags) => {
-  this.setState({ largeImage, tags });
+  onImgClick = (largeImageURL, tags) => {
+    this.setState({ largeImageURL, tags });
+    this.toggleModal();
+    console.log('click photo');
+    console.log(largeImageURL);
   };
   
   componentDidUpdate(prevProps, prevState) {
@@ -110,7 +113,7 @@ class App extends React.Component {
         
           <ImageGallery
           searchData={this.state.searchData}
-          onImgClick={this.onImgItemClick}
+          onImgClick={this.onImgClick}
           />
         {searchData.length > 0 &&
           <Button

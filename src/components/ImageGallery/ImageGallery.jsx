@@ -10,12 +10,12 @@ const ImageGallery = ({ searchData, onImgClick })=> {
     return (
         <div>
             <ul className={css.gallery}>
-                {searchData.map(({ id, webformatURL, largeImage, tags }) => (
+                {searchData.map(({ id, webformatURL, largeImageURL, tags }) => (
                 <ImageGalleryItem
                     key={id}
                     id={id}
                     webformatURL={webformatURL}
-                    largeImageURL={largeImage}
+                    largeImageURL={largeImageURL}
                     tags={tags}    
                     onImgClick={onImgClick}
                 />))}
@@ -31,7 +31,7 @@ ImageGallery.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       webformatURL: PropTypes.string.isRequired,
-      largeImage: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
     })
   ),
 };
