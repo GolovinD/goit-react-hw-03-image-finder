@@ -2,7 +2,7 @@ import React from 'react'
 
 import Searchbar from './Searchbar/Searchbar'
 import Loader from './Loader/Loader'
-import Modal from './Modal/Modal'
+// import Modal from './Modal/Modal'
 import ImageGallery from './ImageGallery/ImageGallery'
 import Button from './Button/Button'
 
@@ -112,10 +112,10 @@ class App extends React.Component {
           />}
 
        
-        {showModal &&
+        {/* {showModal &&
           <Modal
             onClose={this.toggleModal}
-          />}        
+          />}         */}
             
       </div>
     );
