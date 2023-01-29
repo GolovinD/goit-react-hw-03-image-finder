@@ -5,22 +5,33 @@ import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem'
 
 import css from './ImageGallery.module.css'
 
-const ImageGalery = ({ searchData })=> {
+const ImageGallery = ({ searchData, onImgClick })=> {
 
     return (
         <div>
             <ul className={css.gallery}>
-                {searchData.map(({ id, webformatURL, largeImageURL }) => (
+                {searchData.map(({ id, webformatURL, largeImage, tags }) => (
                 <ImageGalleryItem
                     key={id}
                     id={id}
                     webformatURL={webformatURL}
-                    largeImageURL={largeImageURL}
-                    // onImgClick={onImgItemClick}
+                    largeImageURL={largeImage}
+                    tags={tags}    
+                    onImgClick={onImgClick}
                 />))}
             </ul>
         </div>
     )
 }
 
-export default ImageGalery;
+export default ImageGallery;
+
+ImageGallery.propTypes = {
+  searchData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImage: PropTypes.string.isRequired,
+    })
+  ),
+};

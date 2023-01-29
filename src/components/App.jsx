@@ -2,7 +2,7 @@ import React from 'react'
 
 import Searchbar from './Searchbar/Searchbar'
 import Loader from './Loader/Loader'
-// import Modal from './Modal/Modal'
+import Modal from './Modal/Modal'
 import ImageGallery from './ImageGallery/ImageGallery'
 import Button from './Button/Button'
 
@@ -13,10 +13,11 @@ class App extends React.Component {
     searchData: [],
     page: 1,
     largeImage: '',
+    id: '',
+    tags: '',
     showModal: false,
     error: null,
     totalImages: 0,
-    isMoreBtnHide: false,
     status: 'idle',
 };
 
@@ -46,6 +47,10 @@ class App extends React.Component {
     }))
     console.log(this.state.page)
   };
+
+  onImgClick = (largeImage, tags) => {
+  this.setState({ largeImage, tags });
+  };
   
   componentDidUpdate(prevProps, prevState) {
     const { searchQuery, page, searchData } = this.state;
@@ -74,7 +79,7 @@ class App extends React.Component {
       })
           
       .then(data => { 
-        const { hits, totalHits } = data
+        const { hits } = data
         console.log(data);
         this.setState({
           searchData: [...searchData, ...hits],
@@ -104,7 +109,8 @@ class App extends React.Component {
         
         {status === 'resolved' &&
           <ImageGallery
-            searchData={this.state.searchData}
+          searchData={this.state.searchData}
+          onImgClick={this.onImgItemClick}
           />}
         {searchData.length > 0 &&
           <Button
@@ -112,10 +118,10 @@ class App extends React.Component {
           />}
 
        
-        {/* {showModal &&
+        {showModal &&
           <Modal
             onClose={this.toggleModal}
-          />}         */}
+          />}        
             
       </div>
     );
