@@ -107,11 +107,11 @@ class App extends React.Component {
         {status === 'rejected' &&
           <h1>{error.message}</h1>}
         
-        {status === 'resolved' &&
+        
           <ImageGallery
           searchData={this.state.searchData}
           onImgClick={this.onImgItemClick}
-          />}
+          />
         {searchData.length > 0 &&
           <Button
             onClick={this.loadMore}
