@@ -5,6 +5,10 @@ import css from './Searchbar.module.css'
 
 class Searchbar extends React.Component {
 
+    static propTypes = {
+        onSubmit: PropTypes.func.isRequired,
+    }    
+
    state = {
        searchQuery: '',
     }
@@ -15,12 +19,11 @@ class Searchbar extends React.Component {
     this.setState({ searchQuery: value });
     }
     
-
     handleSubmit = event => {
         event.preventDefault();
-        console.log(this.state);
+        // console.log(this.state);
         const searchQueryNorm = this.state.searchQuery.toLowerCase();
-        console.log(searchQueryNorm);
+        // console.log(searchQueryNorm);
         if (searchQueryNorm.trim() === '') {
             alert('Введіть запит');
             return;  
@@ -28,10 +31,7 @@ class Searchbar extends React.Component {
         this.props.onSubmit(searchQueryNorm)
         this.setState({ searchQuery: '' });
     }
-
-    
-
-   
+ 
     render() {
     
         return (
@@ -40,8 +40,6 @@ class Searchbar extends React.Component {
                     <form
                     className={css.form}
                       onSubmit={this.handleSubmit}>
-                        
-
                   
                       <input
                         className={css.input}
@@ -55,15 +53,8 @@ class Searchbar extends React.Component {
                     </form>
                 </header>
             </div>
-        )
-    
-
+        )  
     }
-
 }
 
 export default Searchbar;
-
-Searchbar.protoTypes = {
-    onSubmit: PropTypes.func.isRequired,
-}
