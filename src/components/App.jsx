@@ -5,7 +5,7 @@ import Loader from './Loader/Loader'
 import Modal from './Modal/Modal'
 import ImageGallery from './ImageGallery/ImageGallery'
 import Button from './Button/Button'
-import pixabayApi from './services/PixabayAPI'
+import pixabayApi from '../services/PixabayAPI'
 
 import css from './App.module.css'
 
@@ -91,8 +91,6 @@ class App extends React.Component {
         <Searchbar
           onSubmit={this.handleFormSubmit}
         />
-        {status === 'pending' &&
-          <Loader/>}
         
         {status === 'rejected' &&
           <h1>{error.message}</h1>}
@@ -100,7 +98,11 @@ class App extends React.Component {
           <ImageGallery
           searchData={this.state.searchData}
           onImgClick={this.onImgClick}
-          />
+        />
+        
+        {status === 'pending' &&
+          <Loader />}
+        
         {searchData.length > 0 &&
           <Button
             onClick={this.loadMore}
