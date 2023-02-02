@@ -4,8 +4,7 @@ import css from './ImageGalleryItem.module.css'
 const ImageGalleryItem = ({id, webformatURL, largeImageURL, tags, onImgClick}) => {
     return (
         <li
-            className={css.galleryItem}
-            key={id}>
+            className={css.galleryItem}>
             <img
                 className={css.galleryImg}
                 src={webformatURL}
